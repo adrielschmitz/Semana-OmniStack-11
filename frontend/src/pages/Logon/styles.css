@@ -24,3 +24,32 @@
   margin-bottom: 30px;
 }
 
+@media all and (max-width: 780px) {
+  .logon-container {
+    display: grid;
+    margin-top: 2vh;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+  }
+
+  .logon-container section.form {
+    display: grid;
+    margin: 0;
+  }
+
+  .logon-container section.form img {
+    justify-self: center;
+  }
+
+  .logon-container img {
+    width: auto;
+    height: auto;
+    max-width: 75%;
+  }
+}
+
+@media (max-width: 500px) {
+  .logon-container {
+    width: 90%;
+  }
+}
