@@ -14,11 +14,11 @@ body {
 }
 
 input, button, textarea {
-    font: 400 18px Roboto, sans-serif;
+  font: 400 18px Roboto, sans-serif;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 form input {
@@ -74,12 +74,10 @@ form textarea {
   transition: opacity 0.2s;
 }
 
-.back-link svg{
+.back-link svg {
   margin-right: 8px;
 }
 
-.back-link:hover{
+.back-link:hover {
   opacity: 0.8;
 }
-
-

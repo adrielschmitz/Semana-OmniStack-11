@@ -30,6 +30,7 @@ const Profile = () => {
     })
       .then((response) => {
         setIncidents(incidents.filter(incident => incident.id !== id));
+
       })
       .catch((error) => alert(error));
   }, [ong_id, incidents]);
@@ -56,7 +57,7 @@ const Profile = () => {
         </div>
       </header>
 
-      <h1>Casos cadastrados</h1>
+      <h1>Casos cadastrados: {incidents?.length || 0}</h1>
 
       <ul>
         {incidents.map((incident, index) => (

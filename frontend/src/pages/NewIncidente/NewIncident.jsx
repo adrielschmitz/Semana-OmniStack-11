@@ -47,7 +47,9 @@ const NewIncident = () => {
     <div className="new-incident-container">
       <div className="content">
         <section>
-          <img src={logoImg} alt="Be the Heroes"/>
+          <Link to="/profile">
+            <img src={logoImg} alt="Be the Heroes"/>
+          </Link>
 
           <h1>Cadastrar novo caso</h1>
           <p>Descreva o caso detalhadamente para encontrar um herói para resolver isso.</p>

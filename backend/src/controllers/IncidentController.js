@@ -16,7 +16,6 @@ module.exports = {
       ]);
 
     response.header('X-Total-Count', total_count['count(*)'])
-
     return response.json(incidents);
   },
 
