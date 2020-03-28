@@ -20,36 +20,48 @@
 }
 
 .logon-container section.form form h1{
-  font-size: 32px;
-  margin-bottom: 30px;
+  font-size: x-large;
+  margin-bottom: 20px;
 }
 
-@media all and (max-width: 780px) {
+@media (max-width: 1179px) {
+  .logon-container {
+    width: 95% !important;
+  }
+}
+
+@media (max-width: 780px) {
   .logon-container {
     display: grid;
-    margin-top: 2vh;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    justify-content: center;
     justify-items: center;
+    padding: 50px 0 0;
   }
 
   .logon-container section.form {
     display: grid;
     margin: 0;
+    max-width: 400px;
   }
 
   .logon-container section.form img {
     justify-self: center;
   }
 
+  .logon-container section.form form h1 {
+    font-size: large;
+  }
+
   .logon-container img {
     width: auto;
-    height: auto;
-    max-width: 75%;
+    height: auto !important;
+    max-width: 80%;
   }
 }
 
-@media (max-width: 500px) {
-  .logon-container {
-    width: 90%;
+@media (max-width: 400px) {
+  .logon-container section.form form h1 {
+    font-size: medium;
   }
 }

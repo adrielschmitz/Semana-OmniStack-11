@@ -37,14 +37,15 @@ const Register = () => {
     <div className="register-container">
       <div className="content">
         <section>
-          <img src={logoImg} alt="Be the Heroes"/>
-
+          <Link to="/">
+            <img src={logoImg} alt="Be the Heroes"/>
+          </Link>
           <h1>Cadastro</h1>
           <p>Faça seu dastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG.</p>
 
           <Link className="back-link" to="/">
             <FiArrowLeftIcon/>
-            Não tenho cadastro
+            Já tenho cadastro
           </Link>
         </section>
 
