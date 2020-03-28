@@ -7,7 +7,11 @@
 
 .profile-container header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-container header .header-logo img {
+  height: 64px;
 }
 
 .profile-container header span {
@@ -15,30 +19,33 @@
   margin-left: 24px;
 }
 
-.profile-container header img {
-  height: 64px;
+.profile-container header .header-buttons {
+  display: flex;
+  align-items: center;
 }
 
-.profile-container header a {
+.profile-container header .header-buttons a {
   width: 260px;
   margin-left: auto;
   margin-top: 0;
 }
 
-.profile-container header button {
+.profile-container header .header-buttons button {
   height: 60px;
   width: 60px;
   border-radius: 4px;
   border: 1px;
   background: transparent;
-  margin-left: 16px;
+  margin-left: 20px;
   transition: border-color 0.2s;
 }
 
-.profile-container header button:hover {
+.profile-container header .header-buttons button:hover {
   border-color: #999;
 }
 
+
+/* Listagem */
 .profile-container h1 {
   margin-top: 80px;
   margin-bottom: 24px;
@@ -84,4 +91,8 @@
   color: #737380;
   line-height: 21px;
   font-size: 16px;
+}
+
+@media (max-width: 500px) {
+  
 }

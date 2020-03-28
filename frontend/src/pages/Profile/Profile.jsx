@@ -42,14 +42,18 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <header>
-        <img src={logoImg} alt="Be the Hero"/>
-        <span>Bem vinda, {ong_name}</span>
+        <div className="header-logo">
+          <img src={logoImg} alt="Be the Hero"/>
+          <span>Bem vinda, {ong_name}</span>
+        </div>
 
-        <Link className="button" to="/incidents/new"> Cadastrar novo caso </Link>
+        <div className="header-buttons">
+          <Link className="button" to="/incidents/new"> Cadastrar novo caso </Link>
 
-        <button onClick={handleLogout} type="button">
-          <FiPowerIcon/>
-        </button>
+          <button type="button" onClick={handleLogout}>
+            <FiPowerIcon/>
+          </button>
+        </div>
       </header>
 
       <h1>Casos cadastrados</h1>
