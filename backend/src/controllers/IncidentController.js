@@ -1,5 +1,5 @@
 const connection = require('../database/connection');
-const { find_by_id } = require('./Helpers');
+const { findById } = require('./Helpers');
 
 module.exports = {
   async index(request, response) {
@@ -34,13 +34,13 @@ module.exports = {
     const { id } = request.params;
     const ong_id = request.headers.authorization;
 
-    const incident = await find_by_id('incidents', id).select('ong_id').first();
+    const incident = await findById('incidents', id).select('ong_id').first();
 
     if (incident.ong_id !== ong_id) {
       return response.status(401).json({ error: 'Operation  not permitted. ' });
     }
 
-    await find_by_id('incidents', id).delete();
+    await findById('incidents', id).delete();
 
     return response.status(204).send();
   }

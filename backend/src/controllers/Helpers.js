@@ -1,7 +1,13 @@
 const connection = require('../database/connection');
+const crypto = require('crypto');
 
-const find_by_id = (column_name = 'incidents', id) => {
+const findById = (column_name = 'incidents', id) => {
   return connection(column_name).where('id', id);
 }
 
-exports.find_by_id = find_by_id;
+const generateUniqueId = () => {
+  return crypto.randomBytes(4).toString('HEX');
+}
+
+exports.findById = findById;
+exports.generateUniqueId = generateUniqueId;
