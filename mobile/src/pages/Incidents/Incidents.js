@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, Image, TouchableOpacity, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 import styles from './styles';
+import Constants from 'expo-constants';
 
 const Incidents = () => {
   const navigation = useNavigation();
@@ -12,28 +13,37 @@ const Incidents = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const loadIncidents = () => {
+  const loadIncidents = useCallback((action) => {
     if (loading) return;
-
     if (total > 0 && incidents.length === total) return;
 
-    setLoading(true);
+    const is_refresh = action === 'refresh';
 
-    api.get('incidents', { params: { page } })
+    is_refresh ? setRefreshing(true) : setLoading(true);
+
+    api.get('incidents', { params: { page: is_refresh ? 1 : page } })
       .then((response) => {
-        setIncidents([...incidents, ...response.data]);
+        setIncidents(() => is_refresh ? response.data : [...incidents, ...response.data]);
         setTotal(response.headers['x-total-count']);
-        setPage(page + 1);
+        setPage(is_refresh ? 2 : (page + 1));
       })
-      .then(() => setLoading(false));
-  };
+      .then(() => {
+        setLoading(false);
+        setRefreshing(false);
+      });
+  }, [incidents, total, page, loading]);
 
-  useEffect(() => loadIncidents(), []);
+  useEffect(() => loadIncidents(null), []);
 
-  const navigateToDetail = (incident) => {
+  const onRefresh = () => loadIncidents('refresh');
+
+  const navigateToDetail = useCallback((incident) => {
     navigation.navigate('Detail', { incident });
-  };
+  }, [navigation]);
+
+  console.log(incidents.length);
 
   return (
     <View style={styles.container}>
@@ -44,16 +54,34 @@ const Incidents = () => {
         </Text>
       </View>
 
-      <Text style={styles.title}>Bem-vindo</Text>
-      <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
-
       <FlatList
+        ListHeaderComponent={
+          <View>
+            <Text style={styles.title}>Bem-vindo</Text>
+            <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
+          </View>
+        }
+        disableVirtualization={false}
         data={incidents}
         style={styles.incidentList}
         keyExtractor={incident => String(incident.id)}
         showsVerticalScrollIndicator={false}
-        onEndReached={loadIncidents}
-        onEndReachedThreshold={0.2}
+        onEndReached={() => loadIncidents(null)}
+        onEndReachedThreshold={0.5}
+        ListEmptyComponent={
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text>Nenhum caso encontrado :(</Text>
+          </View>
+        }
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#E02041"
+            colors={["#E02041"]}
+            progressViewOffset={Constants.statusBarHeight + 50}
+          />
+        }
         renderItem={({ item: incident }) => (
           <View style={styles.incident}>
             <Text style={styles.incidentProperty}>ONG:</Text>

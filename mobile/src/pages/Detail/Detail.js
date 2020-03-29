@@ -34,10 +34,16 @@ const Detail = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={logoImg}/>
+        <TouchableOpacity onPress={navigateBack}>
+          <Image source={logoImg}/>
+        </TouchableOpacity>
         <TouchableOpacity onPress={navigateBack}>
           <Feather name="arrow-left" size={28} color="#E02041"/>
         </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text style={styles.title}>Detalhes do caso:</Text>
       </View>
 
       <View style={styles.incident}>
@@ -52,7 +58,7 @@ const Detail = () => {
       </View>
 
       <View style={styles.contactBox}>
-        <Text style={styles.heroTitle}>Salve dia</Text>
+        <Text style={styles.heroTitle}>Salve o dia!!</Text>
         <Text style={styles.heroTitle}>Seja o herói desse caso.</Text>
 
         <Text style={styles.heroDescription}>Entre em contato:</Text>
