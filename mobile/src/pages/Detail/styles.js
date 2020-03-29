@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import Constants from 'expo-constants/src/Constants';
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -13,12 +14,23 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
 
+  title: {
+    fontSize: 22,
+    marginTop: 48,
+    color: '#13131a',
+    fontWeight: 'bold',
+  },
+
+  headerTextBold: {
+    fontWeight: 'bold',
+  },
+
   incident: {
     padding: 24,
     borderRadius: 8,
     backgroundColor: "#FFF",
     marginBottom: 16,
-    marginTop: 48,
+    marginTop: 20,
   },
 
   incidentProperty: {
