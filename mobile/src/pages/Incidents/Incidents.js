@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { FlatList, View, Text, Image, TouchableOpacity, RefreshControl } from 'react-native';
+import { FlatList, View, Text, Image, TouchableOpacity, RefreshControl, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
-import styles from './styles';
 import Constants from 'expo-constants';
+import styled from 'styled-components';
 
 const Incidents = () => {
   const navigation = useNavigation();
@@ -43,22 +43,20 @@ const Incidents = () => {
     navigation.navigate('Detail', { incident });
   }, [navigation]);
 
-  console.log(incidents.length);
-
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <Container>
+      <Header>
         <Image source={logoImg}/>
-        <Text style={styles.headerText}>
-          Total de <Text style={styles.headerTextBold}>{total || 0} casos</Text>.
-        </Text>
-      </View>
+        <HeaderText>
+          Total de <TextBold>{total || 0} casos</TextBold>.
+        </HeaderText>
+      </Header>
 
       <FlatList
         ListHeaderComponent={
           <View>
-            <Text style={styles.title}>Bem-vindo</Text>
-            <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
+            <Title>Bem-vindo</Title>
+            <Description>Escolha um dos casos abaixo e salve o dia.</Description>
           </View>
         }
         disableVirtualization={false}
@@ -83,33 +81,105 @@ const Incidents = () => {
           />
         }
         renderItem={({ item: incident }) => (
-          <View style={styles.incident}>
-            <Text style={styles.incidentProperty}>ONG:</Text>
-            <Text style={styles.incidentValue}>{incident.name || ''}</Text>
+          <IncidentCard>
+            <CardLabel>ONG:</CardLabel>
+            <CardValue>{incident.name || ''}</CardValue>
 
-            <Text style={styles.incidentProperty}>Caso:</Text>
-            <Text style={styles.incidentValue}>{incident.title || ''}</Text>
+            <CardLabel>CASO:</CardLabel>
+            <CardValue>{incident.title || ''}</CardValue>
 
-            <Text style={styles.incidentProperty}>VALOR:</Text>
-            <Text style={styles.incidentValue}>
+            <CardLabel>VALOR:</CardLabel>
+            <CardValue>
               {Intl.NumberFormat('pt-BR',
                 {
                   style: 'currency', currency: 'BRL'
                 }).format(incident.value || 0)}
-            </Text>
+            </CardValue>
 
-            <TouchableOpacity
-              style={styles.detailsButton}
-              onPress={() => navigateToDetail(incident)}
-            >
-              <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
-              <Feather name="arrow-right" size={16} color="#E02041"/>
-            </TouchableOpacity>
-          </View>
+            <DetailsButton onPress={() => navigateToDetail(incident)}>
+              <DetailsButtonText>Ver mais detalhes</DetailsButtonText>
+              <ArrowRightIcon size={18} name="arrow-right"/>
+            </DetailsButton>
+          </IncidentCard>
         )}
       />
-    </View>
+    </Container>
   );
 };
 
 export default Incidents;
+
+const Container = styled(View)`
+    flex: 1;
+    padding: ${Constants.statusBarHeight + 20}px 24px 0 24px;
+`;
+
+const Header = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const HeaderText = styled(Text)`
+  font-size: 15px;
+  color: #737380;
+`;
+
+const TextBold = styled(Text)`
+  font-weight: bold;
+`;
+
+const Title = styled(Text)`
+  font-size: 22px;
+  color: #13131a;
+  font-weight: bold;
+`;
+
+const Description = styled(Text)`
+  font-size: 16px;
+  line-height: 24px;
+  color: #737380;
+  margin-bottom: 30px;
+`;
+
+const styles = StyleSheet.create({
+  incidentList: {
+    marginTop: 32,
+  },
+});
+
+const IncidentCard = styled(View)`
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #FFF;
+  margin-bottom: 16px;
+`;
+
+const CardLabel = styled(Text)`
+  font-size: 14px;
+  color: #41414d;
+  font-weight: bold;
+`;
+
+const CardValue = styled(Text)`
+  margin-top: 8px;
+  font-size: 15px;
+  margin-bottom: 24px;
+  color: #737380;
+`;
+
+const DetailsButton = styled(TouchableOpacity)`
+  flex-direction: row; 
+  justify-content: space-between;  
+  align-items: center; 
+`;
+
+const DetailsButtonText = styled(Text)`
+  color: #E02041;
+  font-size: 15px;
+  font-weight: bold;
+`;
+
+const ArrowRightIcon = styled(Feather)`
+  color: #E02041;
+`;

@@ -1,23 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Constants from 'expo-constants/src/Constants';
 import { View, Image, TouchableOpacity, Text, Linking } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import styles from './styles';
 import logoImg from '../../assets/logo.png';
+import styled from 'styled-components';
 
 const Detail = () => {
   const navigation = useNavigation();
   const navigateBack = () => navigation.goBack();
-
   const route = useRoute();
   const incident = route.params.incident;
   const value = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value || 0);
-  const message = `Olá ${incident.name}, estou entrando em contato pois gostaria de ajudar no caso "${incident.title}" com o valor de ${value}.`;
-
-  useEffect(() => {
-
-  });
+  const message = ` Olá ${incident.name}, estou entrando em contato pois gostaria de ajudar no caso 
+                    "${incident.title}" com o valor de ${value}.`;
 
   const sendEmail = () => {
     MailComposer.composeAsync({
@@ -27,55 +24,135 @@ const Detail = () => {
     });
   };
 
-  const sendWhatsApp = () => {
-    Linking.openURL(`whatsapp://send?phone=${incident.whatsapp}&text=${message}`);
-  };
+  const sendWhatsApp = () => Linking.openURL(`whatsapp://send?phone=${incident.whatsapp}&text=${message}`);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <Container>
+      <Header>
         <TouchableOpacity onPress={navigateBack}>
           <Image source={logoImg}/>
         </TouchableOpacity>
         <TouchableOpacity onPress={navigateBack}>
           <Feather name="arrow-left" size={28} color="#E02041"/>
         </TouchableOpacity>
-      </View>
+      </Header>
 
       <View>
-        <Text style={styles.title}>Detalhes do caso:</Text>
+        <Title>Detalhes do caso:</Title>
       </View>
 
-      <View style={styles.incident}>
-        <Text style={[styles.incidentProperty, { marginTop: 0 }]}>ONG:</Text>
-        <Text style={styles.incidentValue}>{incident.name} de {incident.city} - {incident.uf}</Text>
+      <IncidentCard>
+        <FirstCardLabel>ONG:</FirstCardLabel>
+        <CardValue>{incident.name} de {incident.city} - {incident.uf}</CardValue>
 
-        <Text style={styles.incidentProperty}>Caso:</Text>
-        <Text style={styles.incidentValue}>{incident.title}</Text>
+        <CardLabel>CASO:</CardLabel>
+        <CardValue>{incident.title}</CardValue>
 
-        <Text style={styles.incidentProperty}>VALOR:</Text>
-        <Text style={styles.incidentValue}>{value}</Text>
-      </View>
+        <CardLabel>VALOR:</CardLabel>
+        <CardValue>{value}</CardValue>
+      </IncidentCard>
 
-      <View style={styles.contactBox}>
-        <Text style={styles.heroTitle}>Salve o dia!!</Text>
-        <Text style={styles.heroTitle}>Seja o herói desse caso.</Text>
+      <ContactBox>
+        <ContactBoxTitle>Seja o herói desse caso!!</ContactBoxTitle>
 
-        <Text style={styles.heroDescription}>Entre em contato:</Text>
+        <ContactBoxDescription>Entre em contato:</ContactBoxDescription>
 
-        <View style={styles.actions}>
-          <TouchableOpacity style={styles.action} onPress={sendWhatsApp}>
-            <Text style={styles.actionText}>WhatsApp</Text>
-          </TouchableOpacity>
+        <Actions>
+          <Action onPress={sendWhatsApp}>
+            <ActionText>WhatsApp <Feather name="message-square" size={16} color="#FFF"/></ActionText>
+          </Action>
 
-          <TouchableOpacity style={styles.action} onPress={sendEmail}>
-            <Text style={styles.actionText}>E-mail</Text>
-          </TouchableOpacity>
-
-        </View>
-      </View>
-    </View>
+          <Action onPress={sendEmail}>
+            <ActionText>E-mail <Feather name="mail" size={16} color="#FFF"/></ActionText>
+          </Action>
+        </Actions>
+      </ContactBox>
+    </Container>
   );
 };
 
 export default Detail;
+
+const Container = styled(View)`
+    flex: 1;
+    padding: ${Constants.statusBarHeight + 20}px 24px 0 24px;
+`;
+
+const Header = styled(View)`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const Title = styled(Text)`
+  font-size: 22px;
+  margin-top: 48px;
+  color: #13131a;
+  font-weight: bold;
+`;
+
+const IncidentCard = styled(View)`
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #FFF;
+  margin-bottom: 16px;
+  margin-top: 20px;
+`;
+
+const CardLabel = styled(Text)`
+  font-size: 14px;
+  color: #41414d;
+  font-weight: bold;
+`;
+
+const FirstCardLabel = styled(CardLabel)`
+  margin-top: 0;
+`;
+
+const CardValue = styled(Text)`
+  margin-top: 8px;
+  font-size: 15px;
+  margin-bottom: 24px;
+  color: #737380;
+`;
+
+const ContactBox = styled(View)`
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #FFF;
+  margin-bottom: 16px;
+`;
+
+const ContactBoxTitle = styled(Text)`
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 30px;
+  color: #12121a;
+`;
+
+const ContactBoxDescription = styled(Text)`
+  margin-top: 16px;
+  font-size: 15px;
+  color: #737380;
+`;
+
+const Actions = styled(View)`
+  margin-top: 16px;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Action = styled(TouchableOpacity)`
+  background-color: #E02041;
+  border-radius: 8px;
+  height: 50px;
+  width: 48%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ActionText = styled(Text)`
+  color: #FFF;
+  font-size: 15px;
+  font-weight: bold;
+`;
