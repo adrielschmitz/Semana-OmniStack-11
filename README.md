@@ -37,7 +37,7 @@ internal tests, was used [Expo App](https://play.google.com/store/apps/details?i
 
 ## Internal Tests
 ### Back-end
-With the [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable) installed, inside the backend file run the command ```yarn install``` in your terminal for the installation of the project dependecies. After this, run the command ```yarn dev```.
+With the [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable) installed, inside the backend file run the command ```yarn install``` in your terminal for the installation of the project dependecies. After this, run the command ```yarn start```.
 
 ### Init front-end
 Inside the frontend file, run the command ```yarn install``` in your terminal for the installation of the project dependencies. After this, run the command ```yarn start```.
